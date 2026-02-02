@@ -11,7 +11,7 @@ export const assignCaregiverApi = (bookingId, caregiverId) =>
 
 /* CAREGIVERS */
 export const getAllCaregiversApi = () =>
-  axiosInstance.get("/api/admin/caregivers");
+  axiosInstance.get("/api/admin/caregivers/pending");
 
 export const verifyCaregiverApi = (caregiverId) =>
   axiosInstance.patch(`/api/admin/caregivers/${caregiverId}/verify`);
