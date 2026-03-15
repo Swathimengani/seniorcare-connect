@@ -1,6 +1,20 @@
 const Caregiver = require("../models/Caregiver.model");
 const Booking = require("../models/Booking.model");
 
+// ✅ Get ALL caregivers (FIX)
+const getAllCaregivers = async (req, res) => {
+  try {
+    const caregivers = await Caregiver.find()
+      .populate("userId", "name email phone")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ caregivers });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ Get only pending caregivers
 const getPendingCaregivers = async (req, res) => {
   try {
     const caregivers = await Caregiver.find({
@@ -21,6 +35,7 @@ const getPendingCaregivers = async (req, res) => {
   }
 };
 
+// ✅ Verify caregiver
 const verifyCaregiver = async (req, res) => {
   try {
     const { caregiverId } = req.params;
@@ -70,6 +85,7 @@ const rejectCaregiver = async (req, res) => {
   }
 };
 
+// ✅ Get all bookings
 const getAllBookings = async (req, res) => {
   try {
     const bookings = await Booking.find()
@@ -86,7 +102,7 @@ const getAllBookings = async (req, res) => {
   }
 };
 
-// ✅ Assign caregiver to booking
+// ✅ Assign caregiver
 const assignCaregiverToBooking = async (req, res) => {
   try {
     const { bookingId } = req.params;
@@ -114,12 +130,10 @@ const assignCaregiverToBooking = async (req, res) => {
 };
 
 module.exports = {
-  // caregiver
+  getAllCaregivers, // ✅ NEW
   getPendingCaregivers,
   verifyCaregiver,
   rejectCaregiver,
-
-  // bookings
   getAllBookings,
   assignCaregiverToBooking,
 };

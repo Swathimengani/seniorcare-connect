@@ -181,7 +181,7 @@ Deployment (Vercel + Render)
 
 👨‍💻 Author
 
-Your Name
+Swathi Mengani
 Internship Project – Unified Mentor
 Year: 2026
 
@@ -194,21 +194,3 @@ MongoDB Atlas
 Care24 (inspiration)
 
 
----
-
-## ✅ What to do next
-1. Save this as **`README.md`** in your root folder
-2. Commit & push to GitHub
-3. Use this README for:
-   - Internship submission
-   - Portfolio
-   - Resume project link
-
-If you want next:
-- 📦 **Deployment guide**
-- 🎨 **UI polish**
-- 📄 **Project report / PPT**
-- 🧠 **Interview explanation**
-
-Just tell me 👍
-::contentReference[oaicite:0]{index=0}

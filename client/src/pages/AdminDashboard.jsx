@@ -12,9 +12,6 @@ export default function AdminDashboard() {
   const [caregivers, setCaregivers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  /* ===============================
-     FETCH ALL ADMIN DATA
-     =============================== */
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -32,35 +29,26 @@ export default function AdminDashboard() {
     }
   };
 
-  /* ===============================
-     LOAD DATA ON PAGE LOAD
-     =============================== */
   useEffect(() => {
     fetchData();
   }, []);
 
-  /* ===============================
-     ASSIGN CAREGIVER
-     =============================== */
   const assignCaregiver = async (bookingId, caregiverId) => {
     if (!caregiverId) return;
 
     try {
       await assignCaregiverApi(bookingId, caregiverId);
       fetchData();
-    } catch{
+    } catch {
       alert("Failed to assign caregiver");
     }
   };
 
-  /* ===============================
-     VERIFY CAREGIVER
-     =============================== */
   const verifyCaregiver = async (caregiverId) => {
     try {
       await verifyCaregiverApi(caregiverId);
       fetchData();
-    } catch{
+    } catch {
       alert("Failed to verify caregiver");
     }
   };
@@ -71,9 +59,7 @@ export default function AdminDashboard() {
 
       {loading && <p className="mb-6">Loading...</p>}
 
-      {/* ===============================
-          BOOKINGS SECTION
-         =============================== */}
+      {/* BOOKINGS */}
       <h2 className="text-lg font-semibold mb-3">All Bookings</h2>
 
       {bookings.length === 0 ? (
@@ -81,10 +67,7 @@ export default function AdminDashboard() {
       ) : (
         <div className="space-y-4 mb-10">
           {bookings.map((b) => (
-            <div
-              key={b._id}
-              className="bg-white border rounded-xl p-4 shadow-sm"
-            >
+            <div key={b._id} className="bg-white border rounded-xl p-4 shadow-sm">
               <h3 className="font-semibold">{b.serviceId?.name}</h3>
 
               <p className="text-sm text-gray-600">
@@ -95,7 +78,6 @@ export default function AdminDashboard() {
                 Status: <b>{b.status}</b>
               </p>
 
-              {/* ASSIGN CAREGIVER */}
               {!b.caregiverId ? (
                 <select
                   className="border p-2 rounded mt-2"
@@ -104,11 +86,12 @@ export default function AdminDashboard() {
                   }
                 >
                   <option value="">Assign Caregiver</option>
+
                   {caregivers
-                    .filter((c) => c.isVerified)
+                    .filter((c) => c.verificationStatus === "VERIFIED") // ✅ FIX
                     .map((c) => (
                       <option key={c._id} value={c._id}>
-                        {c.name}
+                        {c.userId?.name} {/* ✅ FIX */}
                       </option>
                     ))}
                 </select>
@@ -122,9 +105,7 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* ===============================
-          CAREGIVER VERIFICATION
-         =============================== */}
+      {/* CAREGIVERS */}
       <h2 className="text-lg font-semibold mb-3">Caregivers</h2>
 
       {caregivers.length === 0 ? (
@@ -137,11 +118,13 @@ export default function AdminDashboard() {
               className="bg-white border rounded-xl p-4 flex justify-between items-center"
             >
               <div>
-                <p className="font-medium">{c.name}</p>
-                <p className="text-sm text-gray-600">{c.email}</p>
+                <p className="font-medium">{c.userId?.name}</p> {/* ✅ FIX */}
+                <p className="text-sm text-gray-600">
+                  {c.userId?.email}
+                </p>
               </div>
 
-              {!c.isVerified ? (
+              {c.verificationStatus !== "VERIFIED" ? ( // ✅ FIX
                 <button
                   onClick={() => verifyCaregiver(c._id)}
                   className="px-4 py-1 bg-blue-600 text-white rounded"

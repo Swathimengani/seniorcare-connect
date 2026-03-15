@@ -3,6 +3,7 @@ const { protect } = require("../middlewares/auth.middleware");
 const { allowRoles } = require("../middlewares/role.middleware");
 
 const {
+  getAllCaregivers, // ✅ NEW
   getPendingCaregivers,
   verifyCaregiver,
   rejectCaregiver,
@@ -13,6 +14,16 @@ const {
 const router = express.Router();
 
 // ================== CAREGIVER MANAGEMENT ==================
+
+// ✅ NEW: Get ALL caregivers (FIX YOUR ISSUE)
+router.get(
+  "/caregivers",
+  protect,
+  allowRoles("ADMIN"),
+  getAllCaregivers
+);
+
+// existing: pending only
 router.get(
   "/caregivers/pending",
   protect,
@@ -35,6 +46,7 @@ router.put(
 );
 
 // ================== BOOKING MANAGEMENT ==================
+
 router.get(
   "/bookings",
   protect,
